@@ -24,7 +24,7 @@ const seedData = async () => {
     await Expense.deleteMany({});
 
     console.log('Creating Users...');
-    // Seed Users (passwords will be hashed in pre-save)
+    // Seed Users (passwords hashed in pre-save)
     const manager = await User.create({
       name: 'Gopal',
       email: 'manager@transitops.com',
@@ -54,64 +54,64 @@ const seedData = async () => {
     });
 
     console.log('Creating Vehicles...');
-    // Seed Vehicles
+    // Seed Vehicles (India region equivalents)
     const v1 = await Vehicle.create({
-      registrationNumber: 'TX-98A-1201',
-      name: 'Freightliner Cascadia Semi',
+      registrationNumber: 'DL-01-A-1201',
+      name: 'Tata Prima Semi-Trailer',
       type: 'Semi',
       maxLoadCapacity: 20000,
       odometer: 145200,
       lastServiceOdometer: 142000,
-      acquisitionCost: 120000,
+      acquisitionCost: 3500000, // INR
       status: 'Available',
     });
 
     const v2 = await Vehicle.create({
-      registrationNumber: 'CA-33B-4402',
-      name: 'Ford Transit Cargo Van',
+      registrationNumber: 'RJ-14-B-4402',
+      name: 'Mahindra Bolero Pickup',
       type: 'Van',
       maxLoadCapacity: 4500,
       odometer: 85500,
-      lastServiceOdometer: 74000, // 11,500 mi since service -> High Maintenance Risk Score (> 80%)
-      acquisitionCost: 45000,
+      lastServiceOdometer: 74000, // 11,500 km since service -> High Risk Score (> 80%)
+      acquisitionCost: 950000, // INR
       status: 'Available',
     });
 
     const v3 = await Vehicle.create({
-      registrationNumber: 'NY-44X-5603',
-      name: 'Isuzu NPR Box Truck',
+      registrationNumber: 'HR-55-X-5603',
+      name: 'Ashok Leyland Ecomet',
       type: 'Box Truck',
       maxLoadCapacity: 8000,
       odometer: 32400,
       lastServiceOdometer: 32400,
-      acquisitionCost: 65000,
-      status: 'In Shop', // Vehicle matches its active maintenance log
+      acquisitionCost: 1800000, // INR
+      status: 'In Shop',
     });
 
     const v4 = await Vehicle.create({
-      registrationNumber: 'FL-22Y-9904',
-      name: 'Peterbilt 579 Semi',
+      registrationNumber: 'PB-02-Y-9904',
+      name: 'BharatBenz Heavy Tipper',
       type: 'Semi',
       maxLoadCapacity: 22000,
       odometer: 12800,
       lastServiceOdometer: 10000,
-      acquisitionCost: 140000,
+      acquisitionCost: 4200000, // INR
       status: 'Available',
     });
 
     const v5 = await Vehicle.create({
-      registrationNumber: 'IL-55Z-7705',
-      name: 'GMC Savana Cargo',
+      registrationNumber: 'GJ-01-Z-7705',
+      name: 'Tata Ace Mini-Van',
       type: 'Van',
       maxLoadCapacity: 4000,
       odometer: 235000,
       lastServiceOdometer: 225000,
-      acquisitionCost: 35000,
+      acquisitionCost: 450000, // INR
       status: 'Retired',
     });
 
     console.log('Creating Drivers...');
-    // Seed Drivers
+    // Seed Drivers (North Indian Names)
     const expiryFuture = new Date();
     expiryFuture.setFullYear(expiryFuture.getFullYear() + 2);
 
@@ -119,11 +119,11 @@ const seedData = async () => {
     expiryPast.setDate(expiryPast.getDate() - 15); // expired 15 days ago
 
     const d1 = await Driver.create({
-      name: 'John Doe',
-      licenseNumber: 'DL-TX983471',
-      licenseCategory: 'CDL-A',
+      name: 'Harry Singh',
+      licenseNumber: 'DL-142023908',
+      licenseCategory: 'Trans-HMV',
       licenseExpiryDate: expiryFuture,
-      contactNumber: '+1-555-0101',
+      contactNumber: '+91-98765-01001',
       safetyScore: 92,
       status: 'Available',
       completedTripsCount: 45,
@@ -131,44 +131,44 @@ const seedData = async () => {
     });
 
     const d2 = await Driver.create({
-      name: 'Jane Smith',
-      licenseNumber: 'DL-CA882190',
-      licenseCategory: 'CDL-A',
+      name: 'Gurpreet Singh',
+      licenseNumber: 'PB-022022871',
+      licenseCategory: 'Trans-HMV',
       licenseExpiryDate: expiryFuture,
-      contactNumber: '+1-555-0102',
+      contactNumber: '+91-98765-01002',
       safetyScore: 98,
       status: 'Available',
       completedTripsCount: 68,
     });
 
     const d3 = await Driver.create({
-      name: 'Robert Johnson',
-      licenseNumber: 'DL-NY552890',
-      licenseCategory: 'CDL-B',
+      name: 'Amit Sharma',
+      licenseNumber: 'HR-552021590',
+      licenseCategory: 'LMV-Commercial',
       licenseExpiryDate: expiryFuture,
-      contactNumber: '+1-555-0103',
+      contactNumber: '+91-98765-01003',
       safetyScore: 65,
       status: 'Available',
       completedTripsCount: 22,
     });
 
     const d4 = await Driver.create({
-      name: 'Alice Brown',
-      licenseNumber: 'DL-FL112233',
-      licenseCategory: 'CDL-A',
+      name: 'Vikram Rathore',
+      licenseNumber: 'RJ-142020443',
+      licenseCategory: 'Trans-HMV',
       licenseExpiryDate: expiryFuture,
-      contactNumber: '+1-555-0104',
+      contactNumber: '+91-98765-01004',
       safetyScore: 85,
-      status: 'Suspended', // Driver suspended
+      status: 'Suspended',
       completedTripsCount: 15,
     });
 
     const d5 = await Driver.create({
-      name: 'Tom Davis',
-      licenseNumber: 'DL-IL992255',
-      licenseCategory: 'CDL-B',
+      name: 'Karan Patel',
+      licenseNumber: 'GJ-012019921',
+      licenseCategory: 'LMV-Commercial',
       licenseExpiryDate: expiryPast, // License is expired
-      contactNumber: '+1-555-0105',
+      contactNumber: '+91-98765-01005',
       safetyScore: 90,
       status: 'Available',
       completedTripsCount: 30,
@@ -179,7 +179,7 @@ const seedData = async () => {
     await MaintenanceLog.create({
       vehicle: v3._id,
       description: 'Engine transmission fluid flush & brake rotor replacement',
-      cost: 1450,
+      cost: 12500, // INR
       startDate: new Date(),
       status: 'Active',
     });
@@ -188,7 +188,7 @@ const seedData = async () => {
     await MaintenanceLog.create({
       vehicle: v1._id,
       description: 'Scheduled preventive maintenance service & inspection',
-      cost: 450,
+      cost: 4500, // INR
       startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
       endDate: new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
       status: 'Completed',
@@ -198,17 +198,17 @@ const seedData = async () => {
     // Completed trip 1
     const t1 = await Trip.create({
       tripId: 'TRIP-1001',
-      source: 'Houston, TX',
-      destination: 'Dallas, TX',
+      source: 'New Delhi',
+      destination: 'Jaipur',
       vehicle: v1._id,
       driver: d1._id,
       cargoWeight: 15000,
-      plannedDistance: 240,
+      plannedDistance: 270,
       weather: 'Clear',
       status: 'Completed',
       riskScore: 25,
-      actualFuelUsed: 28, // Gallons
-      co2Emissions: Math.round(28 * 10.18),
+      actualFuelUsed: 95, // Liters
+      co2Emissions: Math.round(95 * 2.68),
       dispatchedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
       completedAt: new Date(Date.now() - 4.8 * 24 * 60 * 60 * 1000),
     });
@@ -216,17 +216,17 @@ const seedData = async () => {
     // Completed trip 2
     const t2 = await Trip.create({
       tripId: 'TRIP-1002',
-      source: 'Los Angeles, CA',
-      destination: 'Las Vegas, NV',
+      source: 'Jaipur',
+      destination: 'Gurugram',
       vehicle: v2._id,
       driver: d2._id,
       cargoWeight: 3000,
-      plannedDistance: 270,
+      plannedDistance: 240,
       weather: 'Rain',
       status: 'Completed',
       riskScore: 35,
-      actualFuelUsed: 20,
-      co2Emissions: Math.round(20 * 10.18),
+      actualFuelUsed: 65, // Liters
+      co2Emissions: Math.round(65 * 2.68),
       dispatchedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
       completedAt: new Date(Date.now() - 2.8 * 24 * 60 * 60 * 1000),
     });
@@ -234,27 +234,27 @@ const seedData = async () => {
     // Active dispatched trip
     const t3 = await Trip.create({
       tripId: 'TRIP-1003',
-      source: 'Atlanta, GA',
-      destination: 'Orlando, FL',
+      source: 'Chandigarh',
+      destination: 'Amritsar',
       vehicle: v4._id,
       driver: d3._id,
       cargoWeight: 18000,
-      plannedDistance: 440,
+      plannedDistance: 230,
       weather: 'Fog',
       status: 'Dispatched',
       riskScore: 52,
-      dispatchedAt: new Date(Date.now() - 4 * 60 * 60 * 1000), // Dispatched 4 hours ago
+      dispatchedAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
     });
 
     // Draft / Pending trip
     const t4 = await Trip.create({
       tripId: 'TRIP-1004',
-      source: 'Miami, FL',
-      destination: 'Tampa, FL',
+      source: 'Ahmedabad',
+      destination: 'Jaipur',
       vehicle: v1._id,
       driver: d1._id,
       cargoWeight: 14000,
-      plannedDistance: 280,
+      plannedDistance: 670,
       weather: 'Clear',
       status: 'Draft',
       riskScore: 28,
@@ -265,8 +265,8 @@ const seedData = async () => {
     await FuelLog.create({
       vehicle: v1._id,
       odometer: 142240,
-      liters: 106, // approx 28 gallons
-      cost: 112,
+      liters: 106,
+      cost: 9540, // INR
       date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
       isAnomaly: false,
     });
@@ -274,52 +274,51 @@ const seedData = async () => {
     await FuelLog.create({
       vehicle: v2._id,
       odometer: 74270,
-      liters: 75.7, // approx 20 gallons
-      cost: 95,
+      liters: 75.7,
+      cost: 6813, // INR
       date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
       isAnomaly: false,
     });
 
-    // ANOMALY Fuel log: vehicle 1 refueling odometer goes up, but liters is very low, or efficiency is extremely bad.
-    // Let's create an anomaly fuel log: 150 liters filled but odometer only advanced by 30 miles (efficiency = 0.2 mi/L, typical is 2.3 mi/L)
+    // ANOMALY Fuel log: Fuel leak/theft alert (liters filled = 150L, odometer moved only 30km)
     await FuelLog.create({
       vehicle: v1._id,
       odometer: 142270,
       liters: 150,
-      cost: 195,
+      cost: 13500, // INR
       date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
       isAnomaly: true,
-      anomalyReason: 'Fuel efficiency is 91% below vehicle\'s historical average (0.20 vs 2.26 mi/L). Possible fuel leak, theft, or odometer error.',
+      anomalyReason: 'Fuel efficiency is 91% below vehicle\'s historical average (0.20 vs 2.26 km/L). Possible fuel leak, theft, or odometer error.',
     });
 
     // Normal Expenses
     await Expense.create({
       vehicle: v1._id,
       category: 'Tolls',
-      amount: 45,
+      amount: 450, // INR
       date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
-      description: 'Houston-Dallas I-45 Toll tag payment',
+      description: 'Delhi-Jaipur NH-48 Toll tag payment',
       isAnomaly: false,
     });
 
     await Expense.create({
       vehicle: v2._id,
       category: 'Permits',
-      amount: 150,
+      amount: 1500, // INR
       date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-      description: 'State crossing permit fees',
+      description: 'State crossing border commercial permit fees',
       isAnomaly: false,
     });
 
-    // ANOMALY Expense: A Tolls fee of $480 (Normal tolls are $45).
+    // ANOMALY Expense: A Tolls fee of ₹4,800 (Normal tolls are ₹450).
     await Expense.create({
       vehicle: v1._id,
       category: 'Tolls',
-      amount: 480,
+      amount: 4800, // INR
       date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
       description: 'Express highway crossing penalty and toll fee',
       isAnomaly: true,
-      anomalyReason: 'Expense amount ($480) is more than double the rolling average ($45.00) for category: Tolls.',
+      anomalyReason: 'Expense amount (₹4,800) is more than double the rolling average (₹450.00) for category: Tolls.',
     });
 
     console.log('Database seeding completed successfully!');

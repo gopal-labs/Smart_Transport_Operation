@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { OpenAI } = require('openai');
+const { GoogleGenAI } = require('@google/genai');
 const { protect } = require('../middleware/auth');
 
 const Vehicle = require('../models/Vehicle');
@@ -19,10 +19,10 @@ router.post('/chat', protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid or missing messages array' });
     }
 
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.includes('your_actual_openai_api_key')) {
+    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY.includes('your_actual_gemini_api_key')) {
       return res.status(200).json({ 
         success: true, 
-        response: `**Setup Notice**: The OpenAI API Key is currently not set or is using the placeholder value. Please open \`server/.env\` and add your \`OPENAI_API_KEY\` to enable active AI responses!` 
+        response: `**Setup Notice**: The Gemini API Key is currently not set or is using the placeholder value. Please open \`server/.env\` and add your \`GEMINI_API_KEY\` to enable active Gemini AI responses!` 
       });
     }
 
@@ -69,9 +69,7 @@ ${anomalySummary || 'None'}
 `;
 
     // System prompt instruction
-    const systemInstruction = {
-      role: 'system',
-      content: `You are the TransitOps AI Assistant, a friendly and highly knowledgeable copilot for the TransitOps Transport Operations Platform.
+    const systemInstruction = `You are the TransitOps AI Assistant, a friendly and highly knowledgeable copilot for the TransitOps Transport Operations Platform.
 You have real-time access to the TransitOps database context.
 Here is the current live data in the system:
 ------------------------------------------
@@ -83,22 +81,36 @@ Instructions:
 2. Refer to Indian locations, vehicle models, and driver names accurately based on the live context.
 3. Be helpful, concise, and explain reasons clearly (such as why a vehicle has a high maintenance risk score, or what an anomaly flag indicates).
 4. Do not make up fake statuses or vehicles. If a vehicle or driver isn't mentioned in the live context list, state that it's not found in our registry.
-5. Keep answers formatting clean and easy to read using markdown.`
-    };
+5. Keep answers formatting clean and easy to read using markdown.`;
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    // Initialize Gemini API SDK client
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [systemInstruction, ...messages],
-      temperature: 0.7,
+    // Map incoming messages (OpenAI format) to Gemini contents format:
+    // [{ role: 'user' | 'model', parts: [{ text: string }] }]
+    // Filter out any system message since we pass it separately in config.systemInstruction
+    const geminiContents = messages
+      .filter(m => m.role !== 'system')
+      .map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: geminiContents,
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.7,
+      }
     });
 
-    const aiMessage = response.choices[0].message.content;
+    // Gemini API response text is under response.text
+    const aiMessage = response.text || 'Sorry, I encountered an issue generating a response.';
     res.json({ success: true, response: aiMessage });
 
   } catch (error) {
-    console.error('OpenAI backend error:', error);
+    console.error('Gemini backend error:', error);
     res.status(500).json({ success: false, message: error.message || 'Error communicating with AI assistant' });
   }
 });

@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import AIAssistant from './components/AIAssistant';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
@@ -51,6 +52,9 @@ const AppLayout = ({ children }) => {
           {children}
         </main>
       </div>
+
+      {/* Floating AI Assistant */}
+      <AIAssistant />
     </div>
   );
 };

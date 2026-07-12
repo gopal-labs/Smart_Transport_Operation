@@ -13,6 +13,7 @@ const tripRoutes = require('./routes/trips');
 const maintenanceRoutes = require('./routes/maintenance');
 const expenseRoutes = require('./routes/expenses');
 const reportRoutes = require('./routes/reports');
+const aiRoutes = require('./routes/ai');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/trips', tripRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/expenses', expenseRoutes); // covers fuel, general expenses and anomalies
 app.use('/api/reports', reportRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Base route
 app.get('/', (req, res) => {

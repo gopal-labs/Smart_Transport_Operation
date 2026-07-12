@@ -12,6 +12,7 @@ TransitOps is a production-grade, data-dense web application built using the MER
 * **Financial & Fuel Desk**: Log fuel fillings and fleet expenses. Includes an **automated anomaly detection engine** that flags unusual logs (e.g., severe drops in fuel economy or unusually high toll fees).
 * **Reports Hub**: Generate custom fleet ledger reports filterable by date, exportable to **CSV** and download-ready **PDF Ledger Sheets**.
 * **Global Light/Dark Theme & Light Auth**: Dynamic light/dark mode transitions across the entire app with a permanently enforced light-mode sign-in page for optimal branding and accessibility.
+* **TransitOps Copilot (AI Assistant)**: A floating chat assistant powered by Google's **Gemini 2.5 Flash** model that dynamically queries MongoDB to answer operations queries about vehicles, active routes, and expense anomalies in real-time.
 
 ---
 
@@ -63,10 +64,11 @@ TransitOps is a production-grade, data-dense web application built using the MER
    ```
 3. Configure your environment variables. Create a `.env` file inside `/server` (see `server/.env.example` for reference):
    ```env
-   PORT=5000
-   MONGODB_URI=mongodb://127.0.0.1:27017/transit_db
-   JWT_SECRET=your_jwt_secret_key
-   NODE_ENV=development
+    PORT=5000
+    MONGODB_URI=mongodb://127.0.0.1:27017/transitops
+    JWT_SECRET=your_jwt_secret_key
+    NODE_ENV=development
+    GEMINI_API_KEY=your_actual_gemini_api_key
    ```
 4. **Seed the database** with the North-West India mock dataset (Jaipur, New Delhi, Gurugram, Ahmedabad, Chandigarh, Amritsar routes):
    ```bash
